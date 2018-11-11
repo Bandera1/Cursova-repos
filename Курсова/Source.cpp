@@ -1,12 +1,4 @@
-#include <iostream>
-#include <time.h>
-#include <conio.h>
-#include <Windows.h>
-#include <iomanip>
-#include <math.h>
-#include <stdio.h>
-#include <fstream>
-#include <string>
+#include "Header.h"
 
 using namespace std;
 
@@ -1258,7 +1250,7 @@ void change_shop(shop &shop_) // Зміна параметрів магазину
 		case '2':
 		{
 			system("cls");
-			cout << "Изменение описания магазина ";
+			cout << "\tИзменение описания магазина\n";
 			cout << " Введите новое описание ";
 			cin >> shop_.description;
 			cin.ignore(256, '\n');
