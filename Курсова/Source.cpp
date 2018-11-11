@@ -108,7 +108,7 @@ struct shop // Головна структура магазин
 	template<typename T>
 	T* push_up(T *struct_arr, int &new_size) // Функція,яка збільшує розмір масива
 	{
-		T *new_struct_arr = new T[new_size + 1]; // Створюємо новий динамічний масив
+		T *new_struct_arr = new T[new_size+1]; // Створюємо новий динамічний масив
 
 		for (int i = 0; i < new_size; i++)
 		{
@@ -539,11 +539,12 @@ struct product_func // Структура,яка зберігає функції для управлінням товаром
 		system("cls");
 
 		cout << "\tСортировка по возростанию\n";
+		cout << shop_.product_size << endl;
 		cout << left << setw(3) << "#" << setw(3) << "||" << setw(15) << "Имя товара" << setw(8) << "Тип" << setw(25) << "Описание" << setw(10) << "Цена" << setw(15) << "Популярность" << setw(20) << "Срок пригодности" << endl;
 		cout << "------------------------------------------------------------------------------------------------------" << endl;
-		for (int i = 1; i < shop_.product_size; i++)
+		for (int i = 0; i < shop_.product_size-1 ; i++)
 		{
-			cout << left << setw(3) << i << setw(3) << "||";
+			cout << left << setw(3) << i+1 << setw(3) << "||";
 			shop_.products[i].show_info();
 		}
 
@@ -764,10 +765,9 @@ struct product_func // Структура,яка зберігає функції для управлінням товаром
 		for (int i = 0; i < count; i++) // Цикл створення товарів
 		{
 			shop_.products = shop_.push_up(shop_.products, shop_.product_size);
-
 		}
-
-		for (int i = shop_.product_size - count - 1; i < count + 1; i++) // Циел,який заповнює інформацію про данні товари
+	
+		for (int i = (shop_.product_size - count) - 1;i < shop_.product_size; i++) // Цикл,який заповнює інформацію про данні товари
 		{
 			shop_.products[i].name = name;
 			shop_.products[i].type = type;
@@ -1045,6 +1045,7 @@ struct file_func // Структура,яка зберігає функції для роботи з файлами
 	//------------Зчитування файла---------
 
 }file_; // Глобальна змінна для 
+		
 		// --------------------------------------------
 		//----------Меню------------
 		//--------------------------------------------
