@@ -380,6 +380,7 @@ struct worker_func // Структура,яка зберігає фукнції управлінням робітниками
 				{
 					system("cls");
 
+					shop_.workers[i].warning++;
 					cout << " У " << name_ << " " << surname_ << " всего " << shop_.workers[i].warning << "/3" << " выговоров" << endl;
 
 					_getch();
@@ -510,6 +511,15 @@ struct worker_func // Структура,яка зберігає фукнції управлінням робітниками
 				int id;
 				cout << "Введите worker id: ";
 				cin >> id;
+
+				if (id < 0 || id > shop_.size)
+				{
+					cout << " Сотрудник с таким worker id.Не найден\n";
+					_getch();
+					_getch();
+					break;
+				}
+
 				cin.ignore(256, '\n');
 				if (id == -1) // Якщо ми передумали
 					break;
@@ -539,7 +549,6 @@ struct product_func // Структура,яка зберігає функції для управлінням товаром
 		system("cls");
 
 		cout << "\tСортировка по возростанию\n";
-		cout << shop_.product_size << endl;
 		cout << left << setw(3) << "#" << setw(3) << "||" << setw(15) << "Имя товара" << setw(8) << "Тип" << setw(25) << "Описание" << setw(10) << "Цена" << setw(15) << "Популярность" << setw(20) << "Срок пригодности" << endl;
 		cout << "------------------------------------------------------------------------------------------------------" << endl;
 		for (int i = 0; i < shop_.product_size-1 ; i++)
@@ -794,6 +803,15 @@ struct product_func // Структура,яка зберігає функції для управлінням товаром
 		cin >> count;
 		cin.ignore(256, '\n');
 
+		if (count < shop_.product_size || count > shop_.product_size)
+		{
+			cout << " На складе есть только " << shop_.product_size << " товаров\n";
+			_getch();
+			_getch();
+			return;
+		}
+	
+
 		int *entered_arr = new int[count]; // Створюємо новий динамічний масив,який буде зберігати номера товарів
 		cout << endl;
 
@@ -802,6 +820,14 @@ struct product_func // Структура,яка зберігає функції для управлінням товаром
 		for (int i = 0; i < count; i++) // Записуємо номера товарів і відразу їх видаляємо
 		{
 			cin >> entered_arr[i];
+			cin.ignore(256, '\n');
+			if (entered_arr[i] < 0 || entered_arr[i] > shop_.product_size)
+			{
+				cout << " Товара под номером " << entered_arr[i] << " не существует\n";
+				_getch();
+				_getch();
+				break;
+			}
 			shop_.products = shop_.push_down(shop_.products, shop_.product_size, entered_arr[i]); // Викликаємо функція видалення товару
 		}
 
@@ -934,6 +960,14 @@ struct product_func // Структура,яка зберігає функції для управлінням товаром
 		cin >> count;
 		cin.ignore(256, '\n');
 
+		if (count < 0 || count > shop_.product_size)
+		{
+			cout << " На складе только " << shop_.product_size << " продуктов\n";
+			_getch();
+			_getch();
+			return;
+		}
+
 		cout << endl;
 
 		int *entered_arr = new int[count];
@@ -944,6 +978,15 @@ struct product_func // Структура,яка зберігає функції для управлінням товаром
 		{
 			cin >> entered_arr[i];
 			cin.ignore(256, '\n');
+			
+			if (entered_arr[i] < 0 || entered_arr[i] > shop_.product_size - 1)
+			{
+				cout << " На складе нету продукта по номером " << entered_arr[i] << endl;
+				_getch();
+				_getch();
+				return;
+			}
+
 			shop_.products[entered_arr[i]].cost = new_cost;
 		}
 
@@ -973,7 +1016,7 @@ struct product_func // Структура,яка зберігає функції для управлінням товаром
 			cin >> prod_name;
 			cin.ignore(256, '\n');
 
-			for (int i = 1; i < shop_.product_size; i++) // Шукаємо,скільки на складі є такого товара
+			for (int i = 0; i < shop_.product_size-1; i++) // Шукаємо,скільки на складі є такого товара
 			{
 				if (shop_.products[i].name == prod_name) // Якщо товар є,показуємо його к-сть
 				{
@@ -1003,13 +1046,20 @@ struct product_func // Структура,яка зберігає функції для управлінням товаром
 					{
 						shop_.products = shop_.push_down(shop_.products, shop_.product_size, id_prod[i]);
 					}
+
+					system("cls");
 					cout << "\tСпасибо за покупку,приходите еще\n";
 					money -= cost * count;
+
+					_getch();
+					_getch();
+
 					buyer_menu(shop_, money);
 				}
 				else {
 					cout << " У вас недостаточно денег,не хватает " << cost * count - money << "$\n";
-					Sleep(3000);
+					_getch();
+					_getch();
 					continue;
 				}
 			}
@@ -1046,9 +1096,9 @@ struct file_func // Структура,яка зберігає функції для роботи з файлами
 
 }file_; // Глобальна змінна для 
 		
-		// --------------------------------------------
-		//----------Меню------------
-		//--------------------------------------------
+// --------------------------------------------
+//----------Меню------------
+//--------------------------------------------
 
 void info_about_product_menu(shop shop_) // Меню інформації про товар
 {
@@ -1375,6 +1425,8 @@ void menu_for_worker(shop &shop_) // Меню для працівника
 
 	while (true)
 	{
+		system("cls");
+
 		cout << "\tМагазин " << shop_.name << endl;
 		cout << "1) Управление товаром\n";
 		cout << "2) Управление сотрудниками\n";
