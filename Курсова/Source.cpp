@@ -86,7 +86,7 @@ struct shop // Головна структура магазин
 {
 	string name, description; // Назва та опис
 	bool state; // Буль,щоб дізнатись відкритий чи закритий магазин
-	int seller_id; // Змінна,яка запам'ятовує id працівника,який в данний момент на чергуванні
+	int seller_id = 0; // Змінна,яка запам'ятовує id працівника,який в данний момент на чергуванні
 	int size = 1, product_size = 1;
 
 	worker *workers = new worker[size]; // Динамічний масив працівників
@@ -1021,8 +1021,8 @@ struct product_func // Структура,яка зберігає функції для управлінням товаром
 				if (shop_.products[i].name == prod_name) // Якщо товар є,показуємо його к-сть
 				{
 					cost = shop_.products[i].cost;
-					prod_count++;
 					id_prod[prod_count] = i;
+					prod_count++;
 				}
 			}
 
